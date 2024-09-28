@@ -1,0 +1,29 @@
+doctype html
+html(lang="pt-br")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title #{title} - 3 bits Tech
+    link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous")
+    link(rel="stylesheet" href="/styles.css")
+  body
+    header
+      .pure-menu.pure-menu-horizontal
+        a.pure-menu-heading.pure-menu-link(href=`/home` ) Home
+        ul.pure-menu-list
+          li.pure-menu-item
+            a.pure-menu-link(href=`/produtos`) Produtos
+          li.pure-menu-item
+            a.pure-menu-link(href=`/cadastro`) Cadastro
+          li.pure-menu-item
+            a.pure-menu-link(href=`/cadastrar-usuario`) Cadastrar Usuário
+          li.pure-menu-item
+            a.pure-menu-link(href="/meu-carrinho") Meu Carrinho  
+          li.pure-menu-item
+            a.pure-menu-link(href="/logout") Logout
+         
+    main
+      block content
+    footer
+      .footer-content
+        p &copy;  3 bits. 2024. Tech 2024 Criado para fins didáticos.

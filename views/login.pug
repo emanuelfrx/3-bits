@@ -1,0 +1,22 @@
+extends layout-inicio
+
+block content
+  .content
+    .login-container
+      .login-box
+        h1 Login
+        if error
+          .error-message
+            p= error
+        form.pure-form.pure-form-stacked(action="/login", method="POST")
+          .input-group
+            label(for="email") Email
+            input(type="email", id="email", name="email", placeholder="Digite seu e-mail" autocomplete="off" required)
+          .input-group
+            label(for="password") Senha
+            input(type="password", id="password", name="password", placeholder="Digite sua senha" required)
+          .input-group-1
+            button.pure-button.pure-button-primary.btnlogin(type="submit") Entrar
+        p.registrar Não tem uma conta?
+          a(href="/cadastrar-usuario") Registre-se
+

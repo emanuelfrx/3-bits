@@ -1,0 +1,266 @@
+@import url('https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=swap');
+
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    line-height: 1.7em;
+    font-size: 1.1em;
+    margin: 0;
+    font-family: "Quicksand", sans-serif;
+    font-weight: 400;
+    background-color: #fff3f3;
+}
+
+header, footer {
+    background: #d61f1f; 
+    text-align: center;
+    padding: 1em 0;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+
+}
+
+header .pure-menu, footer .footer-content {
+    max-width: 800px;
+    margin: auto;
+}
+
+header .pure-menu-link {
+    color: white; 
+    transition: color 0.3s; 
+}
+
+header .pure-menu-link:hover {
+    color: #d61f1f;
+}
+
+header a, footer a {
+    text-decoration: none;
+    color: white; 
+}
+
+main {
+    flex: 1;
+    margin: 0 auto;
+    padding: 0 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.pure-form input[type] {
+    border: 2px solid #c62828; 
+    border-radius: 5px; 
+    padding: 0.8em; 
+    font-size: 100%;
+    width: 100%;
+    margin-bottom: 1em;
+    transition: border-color 0.3s; 
+}
+
+.pure-button, .pure-button-primary, .button-container a {
+    background-color: #d61f1f; 
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    width: auto;
+    margin: 1em;
+    font-size: 1.1em;
+    text-align: center;
+    transition: background-color 0.3s; 
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-container a:hover {
+    background: #e57373; 
+}
+
+.content {
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.error {
+    color: red;
+}
+
+.card-produtos, .card-produtos-home {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    margin: 2em;
+}
+
+.card-produto, .card-produto-home {
+    background-color: #ffffff; 
+    padding: 1em;
+    border-radius: 8px;
+    transition: transform 0.2s ease-in-out;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    color: #333;
+    text-align: center;
+}
+
+.card-produto {
+    width: 400px;
+}
+.pagination{
+  display: flex;
+  flex-direction: row;
+}
+.pagination-info{
+  margin-right: 0.1em;
+}
+.pagination .pure-button{
+  margin: 0.2em;
+}
+.card-produto img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px; 
+}
+
+.card-produto h4 {
+    font-size: 1.5em; 
+    margin: 10px 0;
+}
+
+.card-produto p {
+    color: #6c757d; 
+    font-size: 16px;
+}
+
+.card-produto:hover {
+    transform: scale(1.05);
+}
+
+.pure-table {
+    width: 90%; 
+    border: none; 
+    border-radius: 10px;
+    overflow: hidden; /* Escondendo  bordas */
+
+}
+.pure-table td .pure-button {
+  margin: 2px;  /* Reduzindo a margem ao redor dos botões */
+  padding: 5px 10px;  /* Ajusta o padding para manter os botões proporcionais */
+  font-size: 0.9em;  /* Reduzindo o tamanho da fonte do botão */
+}
+
+.pure-table th {
+    background-color: #d61f1f; 
+    color: white;
+    text-align: center;
+    padding: 1em;
+}
+
+.pure-table td {
+    background-color: #ffffff; 
+    border-bottom: 1px solid #dee2e6;
+    text-align: center;
+}
+
+.pure-button-primary {
+    background-color: #c62828; 
+    color: white;
+}
+
+.pure-button-error {
+    background-color: #dc3545; 
+    color: white;
+}
+
+.pure-button-primary:hover, .pure-button-error:hover {
+    opacity: 0.8;
+}
+
+.quantity-input {
+    width: 40px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.quantity-control button {
+    padding: 0.5em;
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-align: center; 
+    color: #333; 
+}
+
+table {
+    width: 90%; 
+    border-collapse: collapse;
+    padding: 1em;
+}
+
+th, td {
+    text-align: left; 
+    padding: 1em;
+}
+
+th {
+    background-color: #ffe6e6; 
+    color: #333;
+}
+tr:hover {
+    background-color: #f2b2b2; 
+}
+
+.button-container {
+    margin-top: 20px; 
+    text-align: center; /* Centraliza o botão */
+}
+
+table p {
+    text-align: center; /* Centraliza o texto do aviso */
+    font-size: 1.2em;
+    color: #666;
+}
+
+.btnlogin {
+    width: 100%;
+    margin: 0;
+    background-color: #d61f1f; 
+    color: white; 
+    border: none; /* Remove bordas padrão */
+    border-radius: 5px; /* Bordas arredondadas do botão */
+    padding: 15px 30px; /* Aumenta o padding interno do botão */
+    font-size: 1.2em; /* Aumenta o tamanho da fonte do botão */
+    text-decoration: none; 
+    transition: background-color 0.3s; /* Efeito de transição */
+}
+
+.btnlogin:hover {
+    background-color: #a71d1d; 
+}
+.current {
+  background-color: #007bff;  /* Cor de fundo da página atual */
+  color: white;  /* Cor do texto */
+  cursor: default;  /* Não deixa o cursor mudar para "pointer", já que não é um link */
+  border-color: #007bff;  /* Borda da mesma cor */
+}
+
+

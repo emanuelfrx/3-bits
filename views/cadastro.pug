@@ -1,0 +1,112 @@
+extends layout-menu
+
+block content
+  .content
+    h1= isEdit ? "Editar Produto" : "Cadastrar Produto"
+    include component-cadastro/form.pug
+    include component-cadastro/tabela.pug
+
+    script.
+      document.getElementById('cadastro-form').onsubmit = async function(event) {
+        event.preventDefault(); // Previne o envio padrão do formulário
+        
+        const formData = new FormData(this); // Cria um FormData com os dados do formulário
+        const loadingMessage = document.getElementById('loading-message');
+        loadingMessage.style.display = 'block'; // Mostra a mensagem de carregamento
+
+        try {
+          const response = await fetch('/cadastro', {
+            method: 'POST',
+            body: formData,
+          });
+          
+          if (!response.ok) {
+            throw new Error('Erro ao cadastrar ou atualizar o produto');
+          }
+          
+          const produtoAtualizado = await response.json(); // Converte a resposta para JSON
+
+          // Atualiza a tabela de produtos
+          const tbody = document.getElementById('produtos-tbody');
+          const existingRow = tbody.querySelector(`tr[data-id="${produtoAtualizado.id}"]`);
+          
+          if (existingRow) {
+            // Atualiza a linha existente
+            existingRow.innerHTML = `
+              <td>${produtoAtualizado.nome}</td>
+              <td>${produtoAtualizado.descricao}</td>
+              <td>R$ ${produtoAtualizado.preco.toFixed(2)}</td>
+              <td>${produtoAtualizado.quantidade}</td>
+              <td>
+                <a class="pure-button pure-button-primary" href="/editar/${produtoAtualizado.id}">Editar</a>
+                <form action="/excluir-row/${produtoAtualizado.id}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este produto?');">
+                  <button class="pure-button pure-button-error" type="submit">Excluir</button>
+                </form>
+              </td>
+            `;
+          } else {
+            // Adiciona uma nova linha se o produto não existir
+            const novaLinha = `
+              <tr data-id="${produtoAtualizado.id}">
+                <td>${produtoAtualizado.nome}</td>
+                <td>${produtoAtualizado.descricao}</td>
+                <td>R$ ${produtoAtualizado.preco.toFixed(2)}</td>
+                <td>${produtoAtualizado.quantidade}</td>
+                <td>
+                  <a class="pure-button pure-button-primary" href="/editar/${produtoAtualizado.id}">Editar</a>
+                  <form action="/excluir-row/${produtoAtualizado.id}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este produto?');">
+                    <button class="pure-button pure-button-error" type="submit">Excluir</button>
+                  </form>
+                </td>
+              </tr>
+            `;
+            tbody.insertAdjacentHTML('afterbegin', novaLinha); // Adiciona a nova linha à tabela
+          }
+
+          // Limpa os campos do formulário após a atualização
+          document.getElementById('nome').value = '';
+          document.getElementById('descricao').value = '';
+          document.getElementById('preco').value = '';
+          document.getElementById('image').value = ''; 
+          document.getElementById('quantidade').value = ''; 
+        } catch (error) {
+          console.error(error);
+          alert('Erro ao cadastrar ou atualizar o produto. Tente novamente.');
+        } finally {
+          loadingMessage.style.display = 'none'; // Oculta a mensagem de carregamento após a operação
+        }
+      };
+
+      // Função para atualizar a tabela com os produtos
+      async function atualizarTabela() {
+        const response = await fetch('/produtos'); // Rota que retorna os produtos em JSON
+        if (response.ok) {
+          const produtos = await response.json(); // Obtem produtos em JSON
+          const tbody = document.getElementById('produtos-tbody');
+          tbody.innerHTML = ''; // Limpa a tabela existente
+
+          // Adiciona os novos produtos à tabela
+          produtos.forEach(produto => {
+            const novaLinha = `
+              <tr data-id="${produto.id}">
+                <td>${produto.nome}</td>
+                <td>${produto.descricao}</td>
+                <td>R$ ${produto.preco.toFixed(2)}</td>
+                <td>${produto.quantidade}</td>
+                <td>
+                  <a class="pure-button pure-button-primary" href="/editar/${produto.id}">Editar</a>
+                  <form action="/excluir-row/${produto.id}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este produto?');">
+                    <button class="pure-button pure-button-error" type="submit">Excluir</button>
+                  </form>
+                </td>
+              </tr>
+            `;
+            tbody.insertAdjacentHTML('afterbegin', novaLinha);
+          });
+        } else {
+          alert('Erro ao carregar produtos.');
+        }
+      }
+
+      // Atualiza a tabela ao carregar a página
+      document.addEventListener('DOMContentLoaded', atualizarTabela);

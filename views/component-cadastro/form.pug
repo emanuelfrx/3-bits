@@ -1,0 +1,23 @@
+form#cadastro-form.pure-form.pure-form-stacked(action=produto ? "/editar" : "/cadastro", method="POST", enctype="multipart/form-data")
+  fieldset
+    input(type="hidden", name="id", value=produto ? produto.id : "")
+
+    label(for="nome") Nome do Produto:
+    input(type="text", id="nome", name="nome", value=produto ? produto.nome : "", required, autocomplete="off")
+
+    label(for="descricao") Descrição:
+    input(type="text", id="descricao", name="descricao", value=produto ? produto.descricao : "", required, autocomplete="off")
+
+    label(for="preco") Preço:
+    input(type="number", step="0.01", id="preco", name="preco", value=produto ? produto.preco : "", required, autocomplete="off")
+
+    label(for="quantidade") Quantidade:
+    input(type="number", id="quantidade", name="quantidade", value=produto ? produto.quantidade : "1", min="1", required)
+
+    label(for="image") Imagem do Produto:
+    input(type="file", id="image", name="image", accept="image/*", required)
+
+    button.pure-button.pure-button-primary(type="submit")= isEdit ? "Atualizar Produto" : "Cadastrar Produto"
+
+    p#loading-message(style="display: none;") Carregando produto...
+    p#success-message(style="display: none; color: green;") Produto excluído com sucesso!

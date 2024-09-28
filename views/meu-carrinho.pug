@@ -1,0 +1,37 @@
+extends layout-menu
+
+block content
+  .content
+    h1 Meu Carrinho
+    if carrinho.length
+      table
+        thead
+          tr
+            th Produto
+            th Descrição
+            th Preço
+            th Quantidade
+            th Total
+            th Ações
+        tbody
+          each item in carrinho
+            tr
+              td= item.nome
+              td= item.descricao
+              td R$ #{item.preco.toFixed(2)}
+              td= item.quantidade
+              td R$ #{(item.preco * item.quantidade).toFixed(2)}
+              td
+                form(action=`/remover-do-carrinho/${item.id}`, method="POST" class="remove-from-cart-form")
+                  button.pure-button.pure-button-danger(type="submit") Remover
+      // Cálculo do valor total da compra
+      - const totalCompra = carrinho.reduce((total, item) => total + (item.preco * item.quantidade), 0);
+      
+      .total-container
+        p Valor Total da Compra: R$ #{totalCompra.toFixed(2)}
+      
+      .button-container
+        form(action="/finalizar-compra", method="POST")
+          button.pure-button.pure-button-success(type="submit") Finalizar Compra
+    else
+      p Seu carrinho está vazio.

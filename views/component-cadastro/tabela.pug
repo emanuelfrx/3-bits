@@ -1,0 +1,25 @@
+h2 Produtos Cadastrados
+
+table.pure-table
+  thead
+    tr
+      th Nome
+      th Descrição
+      th Preço
+      th Quantidade
+      th Ações
+  tbody#produtos-tbody
+    if produtos && produtos.length
+      each produto in produtos
+        tr(data-id=produto.id)
+          td= produto.nome
+          td= produto.descricao
+          td R$ #{produto.preco.toFixed(2)}
+          td= produto.quantidade
+          td
+            a.pure-button.pure-button-primary(href=`/editar/${produto.id}`) Editar
+            form(action=`/excluir-row/${produto.id}`, method="POST", style="display:inline;", onsubmit="return confirm('Tem certeza que deseja excluir este produto?');")
+              button.pure-button.pure-button-error(type="submit") Excluir
+    else
+      tr
+        td(colspan="4") Nenhum produto cadastrado no momento.

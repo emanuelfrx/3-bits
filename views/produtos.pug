@@ -1,0 +1,86 @@
+extends layout-menu
+
+block content
+  .content
+    h1 Produtos disponíveis
+    h3 Aqui estão disponíveis os principais produtos da nossa loja
+    .contador-produtos
+      p Você acabou de adicionar <span id="contador-produtos">0</span> itens ao carrinho
+    
+    if produtos.length
+      .card-produtos
+        each produto in produtos
+          .card-produto
+            h4= produto.nome
+            img(src=produto.image, alt=produto.nome) 
+            p Descrição: #{produto.descricao}
+            p Preço: R$ #{produto.preco}
+            p Quantidade disponível: <span class="quantidade-produto" data-id="#{produto.id}">#{produto.quantidade}</span>
+            
+            form(action=`/adicionar-ao-carrinho/${produto.id}`, method="POST" class="add-to-cart-form")
+              input(type="hidden", name="quantidade", value="1") 
+              button.pure-button.pure-button-primary(type="submit" class="add-button" data-id="#{produto.id}" 
+                disabled=(quantidadesNoCarrinho[produto.id] >= produto.quantidade)) Adicionar ao Carrinho
+
+    else
+      p Nenhum produto disponível no momento.
+
+    // Botão para ir ao carrinho
+    .ir-para-carrinho
+      a.pure-button(href="/meu-carrinho") Ir para o Carrinho
+
+    .pagination
+      if totalPages > 1
+
+      .pagination
+      // Botão para página anterior, se não for a primeira
+      if currentPage > 1
+          a.pure-button(href=`/produtos?page=${currentPage - 1}`) Anterior
+      
+      // Botões para todas as páginas
+      each page in [...Array(totalPages).keys()].map(i => i + 1)
+          if page === currentPage
+              a.pure-button.current #{page} 
+          else
+              a.pure-button(href=`/produtos?page=${page}`) #{page} 
+      
+      // Botão para próxima página, se não for a última
+      if currentPage < totalPages
+          a.pure-button(href=`/produtos?page=${currentPage + 1}`) Próxima
+
+    script.
+      function updateButtonStates(quantidadeProdutoElement, quantidadeDisponivel, quantidadeNoCarrinho) {
+        const addButton = document.querySelector(`.add-button[data-id="${quantidadeProdutoElement.dataset.id}"]`);
+        addButton.disabled = quantidadeDisponivel <= 0 || quantidadeNoCarrinho >= quantidadeDisponivel;
+      }
+
+      document.querySelectorAll('.add-to-cart-form').forEach(form => {
+        form.onsubmit = async function(event) {
+          event.preventDefault();
+          const quantidadeProdutoElement = form.closest('.card-produto').querySelector('.quantidade-produto');
+          const quantidadeDisponivel = parseInt(quantidadeProdutoElement.textContent);
+          const contador = document.getElementById('contador-produtos');
+          const quantidadeNoCarrinho = parseInt(contador.textContent);
+
+          const response = await fetch(form.action, {
+            method: 'POST',
+            body: new URLSearchParams(new FormData(form)),
+          });
+
+          if (response.ok) {
+            const quantityInput = form.querySelector('input[name="quantidade"]');
+            const quantidade = parseInt(quantityInput.value);
+            contador.textContent = parseInt(contador.textContent) + quantidade;
+            quantidadeProdutoElement.textContent = quantidadeDisponivel - quantidade;
+            updateButtonStates(quantidadeProdutoElement, quantidadeDisponivel - quantidade, quantidadeNoCarrinho + quantidade);
+          } else {
+            alert(await response.text());
+          }
+        };
+      });
+
+      document.querySelectorAll('.quantidade-produto').forEach(quantidadeProdutoElement => {
+        const quantidadeDisponivel = parseInt(quantidadeProdutoElement.textContent);
+        const quantidadeNoCarrinho = quantidadesNoCarrinho[quantidadeProdutoElement.dataset.id] || 0;
+        updateButtonStates(quantidadeProdutoElement, quantidadeDisponivel, quantidadeNoCarrinho);
+      });

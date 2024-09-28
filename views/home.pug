@@ -1,0 +1,40 @@
+extends layout-menu
+
+block content
+  .content
+    h1.text-left Boas-vindas, #{nome}!
+    p.text-left A primeira loja de produtos que voce não compra, não paga e não  leva
+
+    if produtos.length
+      .card-produtos
+        each produto in produtos
+          .card-produto
+            h4= produto.nome
+            img(src=produto.image, alt=produto.nome, width="150")
+            p Descrição: #{produto.descricao}
+            p Preço: R$ #{produto.preco}
+            p Quantidade: #{produto.quantidade}
+    else
+      p Nenhum produto disponível no momento.
+    
+    .button-container
+      a.pure-menu-link(href=`/cadastro?authToken=${authToken}`) Cadastro
+
+    .pagination
+      if totalPages > 1
+
+      .pagination
+      // Botão para página anterior, se não for a primeira
+      if currentPage > 1
+          a.pure-button(href=`/produtos?page=${currentPage - 1}`) Anterior
+      
+      // Botões para todas as páginas
+      each page in [...Array(totalPages).keys()].map(i => i + 1)
+          if page === currentPage
+              a.pure-button.current #{page} 
+          else
+              a.pure-button(href=`/produtos?page=${page}`) #{page} 
+      
+      // Botão para próxima página, se não for a última
+      if currentPage < totalPages
+          a.pure-button(href=`/produtos?page=${currentPage + 1}`) Próxima 
