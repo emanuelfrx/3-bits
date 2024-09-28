@@ -6,7 +6,7 @@ Loja de eletrônicos com uma seleção de dispositivos de última geração e pr
 
 # COMO RODAR
   1. Clone meu repositório na sua maquina\
-  1.1 `git clone https://github.com/emanuelfrx/3-bits.git\
+  1.1 `git clone https://github.com/emanuelfrx/3-bits.git\`
   1.2`cd repositorio`\
   1.3` code .` para abri o Visual Studio Code
 
