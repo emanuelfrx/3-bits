@@ -394,6 +394,7 @@ app.post('/editar', verificarAutenticacao, upload.single('image'), async (req, r
 // rota pra excluir um produto
 app.post('/excluir/:id', verificarAutenticacao, async (req, res) => {
     const id = req.params.id;  // pega o ID do produto da URL
+    console.log('ID do produto para exclusão:', id);  // loga o ID que vai ser excluído
   
     const idProduto = doc(banco, 'produtos', id);  // cria uma referência pro documento do produto
   
